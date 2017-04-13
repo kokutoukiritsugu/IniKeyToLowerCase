@@ -1,7 +1,5 @@
-import org.ini4j.Config;
-import org.ini4j.Ini;
+import org.ini4j.*;
 import org.ini4j.Profile.Section;
-import org.ini4j.Wini;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -11,9 +9,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         String filename = args.length > 0 ? args[0] : "1.ini";
 
-        Ini ini = new Wini();
-        Ini ini2 = new Wini();
-
         Config config = new Config();
         config.setFileEncoding(Charset.forName("utf-16le"));
         config.setStrictOperator(true);
@@ -21,8 +16,13 @@ public class Main {
         config.setMultiOption(true);
         config.setMultiSection(true);
 
+        Ini ini = new Wini();
+        Ini ini2 = new Wini();
+        Ini ini3 = new Wini();
+
         ini.setConfig(config);
         ini2.setConfig(config);
+        ini3.setConfig(config);
 
         ini.load(new File(filename));
 
