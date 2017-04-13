@@ -10,6 +10,28 @@ public class Main {
         String iniFileName = args.length > 0 ? args[0] : "1.ini";
         System.out.printf("ini file name: %s\n", iniFileName);
 
+        FileInputStream fis = new FileInputStream(iniFileName);
+        InputStreamReader isr = new InputStreamReader(fis, Charset.forName("utf-16le"));
+        BufferedReader br = new BufferedReader(isr);
+
+        String line;
+        int i = 1;
+        while ((line = br.readLine()) != null) {
+            System.out.printf("%3d %s\n", i, line);
+            i++;
+        }
+
+        FileOutputStream fos = new FileOutputStream("1" + iniFileName);
+        OutputStreamWriter osw = new OutputStreamWriter(fos, Charset.forName("utf-16le"));
+        osw.write("\uFEFF");
+
+        osw.close();
+    }
+
+    public static void old(String[] args) throws IOException {
+        String iniFileName = args.length > 0 ? args[0] : "1.ini";
+        System.out.printf("ini file name: %s\n", iniFileName);
+
         Config config = new Config();
         config.setFileEncoding(Charset.forName("utf-16le"));
         config.setStrictOperator(true);
@@ -43,5 +65,7 @@ public class Main {
         osw.write("\uFEFF");
 
         iniOutput.store(osw);
+
+        osw.close();
     }
 }
