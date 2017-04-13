@@ -2,11 +2,9 @@
 
 convert utf16-le ini file all sections and options name to lower case  
 
-### other:  
+### future:  
 handle "\\r" "\\n" etc. in option vaule.  
 handle duplicate section name and option name.  
-
-
 
 ### usage:
 
