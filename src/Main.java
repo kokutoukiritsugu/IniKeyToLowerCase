@@ -4,6 +4,8 @@ import org.ini4j.Profile.Section;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -17,6 +19,8 @@ public class Main {
         String line;
         int i = 1;
         while ((line = br.readLine()) != null) {
+            boolean b = Pattern.matches("\\[.*", line);
+            System.out.printf("%5s ", b ? "true" : "false");
             System.out.printf("%3d %s\n", i, line);
             i++;
         }
