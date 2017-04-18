@@ -4,7 +4,6 @@ import org.ini4j.Profile.Section;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
@@ -14,6 +13,7 @@ public class Main {
 
         FileInputStream fis = new FileInputStream(iniFileName);
         InputStreamReader isr = new InputStreamReader(fis, Charset.forName("utf-16le"));
+        isr.skip(1);
         BufferedReader br = new BufferedReader(isr);
 
         String line;
