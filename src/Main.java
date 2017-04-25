@@ -16,18 +16,48 @@ public class Main {
         isr.skip(1);
         BufferedReader br = new BufferedReader(isr);
 
-        String line;
-        int i = 1;
-        while ((line = br.readLine()) != null) {
-            boolean b = Pattern.matches("\\[.*", line);
-            System.out.printf("%5s ", b ? "true" : "false");
-            System.out.printf("%3d %s\n", i, line);
-            i++;
-        }
-
-        FileOutputStream fos = new FileOutputStream("1" + iniFileName);
+        FileOutputStream fos = new FileOutputStream("" + iniFileName+"1");
         OutputStreamWriter osw = new OutputStreamWriter(fos, Charset.forName("utf-16le"));
         osw.write("\uFEFF");
+
+        String line;
+        while ((line = br.readLine()) != null) {
+            boolean section_line = Pattern.matches("^\\s*\\[.*\\]\\s*$", line);
+            boolean blank_line = Pattern.matches("^\\s*$", line);
+            boolean comment_line = Pattern.matches("^[;].*\\s*$", line);
+            boolean kv_line = Pattern.matches("^.*=.*$", line);
+
+            if (comment_line) {
+                osw.write(line);
+                osw.write("\n");
+                continue;
+            }
+
+            if (blank_line) {
+                osw.write(line);
+                osw.write("\n");
+                continue;
+            }
+
+            if (section_line) {
+                osw.write(line.toLowerCase());
+                osw.write("\n");
+                continue;
+            }
+
+            if (kv_line) {
+                String[] str = line.split("=");
+                if (str.length == 2) {
+                    osw.write(str[0].toLowerCase());
+                    osw.write("=");
+                    osw.write(str[1]);
+                    osw.write("\n");
+                }
+                continue;
+            }
+
+            osw.write(line);
+        }
 
         osw.close();
     }
