@@ -16,7 +16,7 @@ public class Main {
         isr.skip(1);
         BufferedReader br = new BufferedReader(isr);
 
-        FileOutputStream fos = new FileOutputStream("" + iniFileName+"1");
+        FileOutputStream fos = new FileOutputStream("" + iniFileName + "1");
         OutputStreamWriter osw = new OutputStreamWriter(fos, Charset.forName("utf-16le"));
         osw.write("\uFEFF");
 
@@ -46,13 +46,10 @@ public class Main {
             }
 
             if (kv_line) {
-                String[] str = line.split("=");
-                if (str.length == 2) {
-                    osw.write(str[0].toLowerCase());
-                    osw.write("=");
-                    osw.write(str[1]);
-                    osw.write("\n");
-                }
+                int keySize = line.indexOf("=");
+                osw.write(line.substring(0, keySize).toLowerCase());
+                osw.write(line.substring(keySize, line.length()));
+                osw.write("\n");
                 continue;
             }
 
@@ -60,6 +57,14 @@ public class Main {
         }
 
         osw.close();
+
+        isr.close();
+
+        File oldF = new File(iniFileName);
+        oldF.delete();
+
+        File newF = new File(iniFileName + "1");
+        newF.renameTo(oldF);
     }
 
     public static void old(String[] args) throws IOException {
